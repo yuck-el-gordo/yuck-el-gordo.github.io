@@ -26,6 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
             scoreDisplay.innerText = 'Veces Atrapado: ' + score; // Actualiza el texto del contador
             resetGoal(); // Opcional: Mover el objetivo a una nueva posición
         }
+    function resetGoal() {
+    // Obtener las dimensiones del contenedor del juego
+    const gameContainer = document.getElementById('game-container');
+    const containerRect = gameContainer.getBoundingClientRect();
+
+    // Calcular nuevas posiciones aleatorias dentro del contenedor
+    const maxX = containerRect.width - goal.offsetWidth;
+    const maxY = containerRect.height - goal.offsetHeight;
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    // Mover el objetivo a la nueva posición
+    goal.style.left = randomX + 'px';
+    goal.style.top = randomY + 'px';
+        }
     }
 
     document.addEventListener('keydown', (event) => {
