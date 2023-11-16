@@ -5,10 +5,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0; // Inicializa el contador
     let posX = 285; // Posición inicial X del personaje
     let posY = 185; // Posición inicial Y del personaje
-    const speed = 5; // Velocidad de movimiento
+    const speed = 5; // Velocidad de movimiento del personaje
+
+    // Configuración del movimiento del objetivo
     let goalDirection = { x: 1, y: 1 }; // Dirección inicial del movimiento del objetivo
     const goalSpeed = 2; // Velocidad de movimiento del objetivo
     const moveInterval = 50; // Intervalo en milisegundos para mover el objetivo
+
+    function moveCharacter(dx, dy) {
+        posX += dx * speed;
+        posY += dy * speed;
+        character.style.left = posX + 'px';
+        character.style.top = posY + 'px';
+        checkGoal();
+    }
 
     function moveGoal() {
         const gameContainer = document.getElementById('game-container');
@@ -29,17 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         goal.style.top = goalY + 'px';
     }
 
-    // Iniciar el movimiento del objetivo
-    setInterval(moveGoal, moveInterval);
-    
-    function moveCharacter(dx, dy) {
-        posX += dx * speed;
-        posY += dy * speed;
-        character.style.left = posX + 'px';
-        character.style.top = posY + 'px';
-        checkGoal();
-    }
-
     function checkGoal() {
         const rect1 = character.getBoundingClientRect();
         const rect2 = goal.getBoundingClientRect();
@@ -49,22 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rect1.height + rect1.y > rect2.y) {
             score++; // Incrementa el contador
             scoreDisplay.innerText = 'Veces Atrapado: ' + score; // Actualiza el texto del contador
-            resetGoal(); // Opcional: Mover el objetivo a una nueva posición
-        }
-    function resetGoal() {
-    // Obtener las dimensiones del contenedor del juego
-    const gameContainer = document.getElementById('game-container');
-    const containerRect = gameContainer.getBoundingClientRect();
-
-    // Calcular nuevas posiciones aleatorias dentro del contenedor
-    const maxX = containerRect.width - goal.offsetWidth;
-    const maxY = containerRect.height - goal.offsetHeight;
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-
-    // Mover el objetivo a la nueva posición
-    goal.style.left = randomX + 'px';
-    goal.style.top = randomY + 'px';
         }
     }
 
@@ -84,4 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
     });
+
+    // Iniciar el movimiento del objetivo
+    setInterval(moveGoal, moveInterval);
 });
