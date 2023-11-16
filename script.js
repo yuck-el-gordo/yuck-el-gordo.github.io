@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = function() {
     const character = document.getElementById('character');
     const goal = document.getElementById('goal');
     const scoreDisplay = document.getElementById('score');
@@ -22,15 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function moveGoal() {
         const gameContainer = document.getElementById('game-container');
-        const containerRect = gameContainer.getBoundingClientRect();
         let goalX = goal.offsetLeft + goalDirection.x * goalSpeed;
         let goalY = goal.offsetTop + goalDirection.y * goalSpeed;
+        const containerWidth = gameContainer.offsetWidth;
+        const containerHeight = gameContainer.offsetHeight;
 
         // Revertir la dirección si el objetivo alcanza los bordes del contenedor
-        if (goalX < 0 || goalX + goal.offsetWidth > containerRect.width) {
+        if (goalX < 0 || goalX + goal.offsetWidth > containerWidth) {
             goalDirection.x *= -1;
         }
-        if (goalY < 0 || goalY + goal.offsetHeight > containerRect.height) {
+        if (goalY < 0 || goalY + goal.offsetHeight > containerHeight) {
             goalDirection.y *= -1;
         }
 
@@ -40,14 +41,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkGoal() {
-        const rect1 = character.getBoundingClientRect();
-        const rect2 = goal.getBoundingClientRect();
-        if (rect1.x < rect2.x + rect2.width &&
-            rect1.x + rect1.width > rect2.x &&
-            rect1.y < rect2.y + rect2.height &&
-            rect1.height + rect1.y > rect2.y) {
-            score++; // Incrementa el contador
-            scoreDisplay.innerText = 'Veces Atrapado: ' + score; // Actualiza el texto del contador
+        const characterRect = {
+            x: character.offsetLeft,
+            y: character.offsetTop,
+            width: character.offsetWidth,
+            height: character.offsetHeight
+        };
+        const goalRect = {
+            x: goal.offsetLeft,
+            y: goal.offsetTop,
+            width: goal.offsetWidth,
+            height: goal.offsetHeight
+        };
+
+        if (characterRect.x < goalRect.x + goalRect.width &&
+            characterRect.x + characterRect.width > goalRect.x &&
+            characterRect.y < goalRect.y + goalRect.height &&
+            characterRect.height + characterRect.y > goalRect.y) {
+            score++;
+            scoreDisplay.innerText = 'Veces Atrapado: ' + score;
         }
     }
 
@@ -70,4 +82,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Iniciar el movimiento del objetivo
     setInterval(moveGoal, moveInterval);
-});
+};
