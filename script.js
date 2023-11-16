@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const character = document.getElementById('character');
     const goal = document.getElementById('goal');
+    const scoreDisplay = document.getElementById('score');
+    let score = 0; // Inicializa el contador
     let posX = 285; // Posición inicial X del personaje
     let posY = 185; // Posición inicial Y del personaje
     const speed = 5; // Velocidad de movimiento
@@ -20,7 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
             rect1.x + rect1.width > rect2.x &&
             rect1.y < rect2.y + rect2.height &&
             rect1.height + rect1.y > rect2.y) {
-            alert('¡Ganaste!');
+            score++; // Incrementa el contador
+            scoreDisplay.innerText = 'Veces Atrapado: ' + score; // Actualiza el texto del contador
+            resetGoal(); // Opcional: Mover el objetivo a una nueva posición
         }
     }
 
