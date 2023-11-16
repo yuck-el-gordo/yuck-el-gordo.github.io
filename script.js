@@ -6,7 +6,32 @@ document.addEventListener('DOMContentLoaded', () => {
     let posX = 285; // Posición inicial X del personaje
     let posY = 185; // Posición inicial Y del personaje
     const speed = 5; // Velocidad de movimiento
+    let goalDirection = { x: 1, y: 1 }; // Dirección inicial del movimiento del objetivo
+    const goalSpeed = 2; // Velocidad de movimiento del objetivo
+    const moveInterval = 50; // Intervalo en milisegundos para mover el objetivo
 
+    function moveGoal() {
+        const gameContainer = document.getElementById('game-container');
+        const containerRect = gameContainer.getBoundingClientRect();
+        let goalX = goal.offsetLeft + goalDirection.x * goalSpeed;
+        let goalY = goal.offsetTop + goalDirection.y * goalSpeed;
+
+        // Revertir la dirección si el objetivo alcanza los bordes del contenedor
+        if (goalX < 0 || goalX + goal.offsetWidth > containerRect.width) {
+            goalDirection.x *= -1;
+        }
+        if (goalY < 0 || goalY + goal.offsetHeight > containerRect.height) {
+            goalDirection.y *= -1;
+        }
+
+        // Actualizar la posición del objetivo
+        goal.style.left = goalX + 'px';
+        goal.style.top = goalY + 'px';
+    }
+
+    // Iniciar el movimiento del objetivo
+    setInterval(moveGoal, moveInterval);
+    
     function moveCharacter(dx, dy) {
         posX += dx * speed;
         posY += dy * speed;
